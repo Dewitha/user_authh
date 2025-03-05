@@ -20,6 +20,14 @@ class AuthController extends Controller
             'name' => 'required|string|max:50',
             'email' => 'required|string|email|max:50|unique:users',
             'password' => 'required|string|min:6|confirmed',
+        ], [
+            'name.required' => 'Nama harus diisi.',
+            'email.required' => 'Email harus diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah digunakan.',
+            'password.required' => 'Password harus diisi.',
+            'password.min' => 'Password minimal 6 karakter.',
+            'password.confirmed' => 'Password konfirmasi tidak cocok.',
         ]);
 
         User::create([
@@ -28,7 +36,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
+        return redirect()->route('login.form')->with('success', 'Registrasi berhasil! Silakan login.');
     }
 
     public function showLoginForm()
